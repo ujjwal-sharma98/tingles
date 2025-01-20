@@ -2,9 +2,14 @@ const express = require("express");
 const http = require("http");
 const connectDB = require("./database");
 
+const authRouter = require("./routes/auth");
+
 require('dotenv').config()
 const app = express();
 const server = http.createServer(app);
+
+app.use("/", authRouter);
+
 
 connectDB()
   .then(() => {

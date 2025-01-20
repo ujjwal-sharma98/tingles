@@ -4,5 +4,9 @@
 - Create env file
 - Create mongoDB account
 - Install mongoDB compass
-- create database.js file
+- Create database.js file
 - npm install mongoose
+
+- Create Auth route
+- Create user schema
+- Start creating APIs: Signup, Login, Logout
