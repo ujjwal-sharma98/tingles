@@ -7,6 +7,7 @@ const authRouter = require("./routes/auth");
 require('dotenv').config()
 const app = express();
 const server = http.createServer(app);
+app.use(express.json())
 
 app.use("/", authRouter);
 
