@@ -5,9 +5,7 @@ const User = require("../models/user");
 
 authRouter.post("/signup", async (req, res) => {
     try{
-
         const { firstName, lastName, emailId, password } = req.body;
-
         const passwordHash = await bcrypt.hash(password, 10);
         
         const user = new User({
@@ -23,9 +21,7 @@ authRouter.post("/signup", async (req, res) => {
         res.cookie("token", token, {
             expires: new Date(Date.now() + 8 * 3600000),
         });
-
         res.json({ message: "User Added successfully!", data: savedUser });
-
     } catch (err) {
         res.status(400).send("ERROR : " + err.message);
     }
@@ -33,7 +29,6 @@ authRouter.post("/signup", async (req, res) => {
 
 authRouter.post("/login", async (req, res) => {
     try {
-        
         const { emailId, password } = req.body;
         const user = await User.findOne({ emailId: emailId });
         
