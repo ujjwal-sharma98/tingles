@@ -48,6 +48,7 @@ const userSchema = new mongoose.Schema({
     },
     photoUrl: {
         type: String,
+        default: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.britannica.com%2Fbiography%2FShah-Rukh-Khan&psig=AOvVaw0_qpX4G0FrXdlChjQIL9lj&ust=1742505450320000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMC1qeqIl4wDFQAAAAAdAAAAABAE',
         validate(value) {
             if (!validator.isURL(value)) {
               throw new Error("Invalid Photo URL: " + value);
