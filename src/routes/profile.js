@@ -1,6 +1,7 @@
 const express = require("express");
 const profileRouter = express.Router();
 const { userAuth } = require('../middlewares/auth');
+const { sendEmail } = require('../utils/sendEmail');
 
 profileRouter.get("/profile/view", userAuth, async (req, res) => {
     try {
@@ -18,6 +19,8 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
       Object.keys(req.body).forEach((key) => (loggedInUser[key] = req.body[key]));
   
       await loggedInUser.save();
+
+      await sendEmail("Profile Updated Successfully", "Your profile has been updated successuly!!", loggedInUser.emailId);
   
       res.json({
         message: `${loggedInUser.firstName}, your profile updated successfuly`,

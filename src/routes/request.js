@@ -4,6 +4,7 @@ const requestRouter = express.Router();
 const { userAuth } = require("../middlewares/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
+const { sendEmail } = require("../utils/sendEmail");
 
 requestRouter.post(
   "/request/send/:status/:toUserId",
@@ -46,6 +47,8 @@ requestRouter.post(
 
       const data = await connectionRequest.save();
 
+      await sendEmail("Connection Request", `Hi ${toUser.firstName}, you have received a new connection request from ${req.user.firstName}` , toUser.emailId);
+
       res.json({
         message:
           req.user.firstName + " is " + status + " in " + toUser.firstName,
@@ -74,7 +77,7 @@ requestRouter.post(
         _id: requestId,
         toUserId: loggedInUser._id,
         status: "interested",
-      });
+      }).populate("fromUserId", "firstName emailId");
       if (!connectionRequest) {
         return res
           .status(404)
@@ -84,6 +87,8 @@ requestRouter.post(
       connectionRequest.status = status;
 
       const data = await connectionRequest.save();
+
+      await sendEmail("Connection Request", `Hi ${connectionRequest.fromUserId.firstName}, your connection request has been ${status} by ${loggedInUser.firstName}` , connectionRequest.fromUserId.emailId);
 
       res.json({ message: "Connection request " + status, data });
     } catch (err) {

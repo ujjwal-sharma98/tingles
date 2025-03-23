@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const authRouter = express.Router();
 const User = require("../models/user");
+const { sendEmail } = require("../utils/sendEmail");
 
 authRouter.post("/signup", async (req, res) => {
     try{
@@ -18,6 +19,8 @@ authRouter.post("/signup", async (req, res) => {
 
         const savedUser = await user.save();
         const token = await savedUser.getJWT();
+
+        await sendEmail("Welcome to the app", "Congratulation!! We welcome you to our app", emailId);
 
         res.cookie("token", token, {
             expires: new Date(Date.now() + 8 * 3600000),
