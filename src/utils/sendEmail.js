@@ -31,9 +31,9 @@ const createSendEmailCommand = (toAddress, fromAddress, subject, body) => {
 
 const sendEmail = async (subject, body, toEmailId) => {
   const sendEmailCommand = createSendEmailCommand(
-    // Replace with your verified email address
-    "ujjwal.dev@yahoo.com", // TO
-    "ujjwal.develop@gmail.com", // FROM
+    // only verified email addresses are allowed
+    "ujjwal.dev@yahoo.com", // toEmailId
+    "ujjwal.develop@gmail.com",
     subject,
     body
   );

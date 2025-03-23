@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 require('dotenv').config()
+require("./crons/pendingRequests");
 
 app.use(
   cors({
