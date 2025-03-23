@@ -4,6 +4,7 @@ const app = express();
 const connectDB = require("./database");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const { initializeSocket } = require("./utils/socket");
 
 require('dotenv').config()
 require("./crons/pendingRequests");
@@ -28,6 +29,7 @@ app.use("/", requestRouter);
 app.use("/", userRouter);
 
 const server = http.createServer(app);
+initializeSocket(server);
 
 connectDB()
   .then(() => {
