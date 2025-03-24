@@ -17,7 +17,7 @@ const initializeSocket = (server) => {
 
         socket.on("sendMessage", ({ firstName, userId, targetUserId, text }) => {
             const roomId = [userId, targetUserId].sort().join("_");
-            io.to(roomId).emit("messageReceived", { firstName, text });
+            io.to(roomId).emit("messageReceived", { userId, text });
             console.log(`${firstName} sent message ${text} in room ${roomId}`);
         })
     
