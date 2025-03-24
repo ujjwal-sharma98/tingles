@@ -9,12 +9,16 @@ const initializeSocket = (server) => {
     
     io.on("connection", (socket) => {
 
-        socket.on("joinChat", (room) => {
-
+        socket.on("joinChat", ({ firstName, userId, targetUserId }) => {
+            const roomId = [userId, targetUserId].sort().join("_");
+            console.log(`${firstName} joined room ${roomId}`);
+            socket.join(roomId);
         })
 
-        socket.on("messageSend", (message) => {
-
+        socket.on("sendMessage", ({ firstName, userId, targetUserId, text }) => {
+            const roomId = [userId, targetUserId].sort().join("_");
+            io.to(roomId).emit("messageReceived", { firstName, text });
+            console.log(`${firstName} sent message ${text} in room ${roomId}`);
         })
     
         socket.on("disconnect", () => {
