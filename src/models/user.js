@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     lastName: {
         type: String,
         maxLength: 50,
-    }, 
+    },
     emailId: {
         type: String,
         required: true,
@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
         trim: true,
         validate(value) {
             if (!validator.isEmail(value)) {
-              throw new Error("Invalid email address: " + value);
+                throw new Error("Invalid email address: " + value);
             }
         },
     },
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         validate(value) {
             if (!validator.isStrongPassword(value)) {
-              throw new Error("Enter a Strong Password: " + value);
+                throw new Error("Enter a Strong Password: " + value);
             }
         },
     },
@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
         default: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTKqIg3pZGnGVuDbO7piYwe2EBzDMOcMohDv5sIWQ-tnD7ruRla',
         validate(value) {
             if (!validator.isURL(value)) {
-              throw new Error("Invalid Photo URL: " + value);
+                throw new Error("Invalid Photo URL: " + value);
             }
         },
     },
@@ -62,12 +62,19 @@ const userSchema = new mongoose.Schema({
     skills: {
         type: [String],
     },
-},{
+    isPremium: {
+        type: Boolean,
+        default: false,
+    },
+    membershipType: {
+        type: String,
+    },
+}, {
     timestamps: true,
-  }
+}
 )
 
-userSchema.methods.getJWT = async function() {
+userSchema.methods.getJWT = async function () {
     const user = this;
 
     const token = await jwt.sign({ _id: user._id }, process.env.JWT_HASH_STRING, {
@@ -80,12 +87,12 @@ userSchema.methods.getJWT = async function() {
 userSchema.methods.validatePassword = async function (passwordInputByUser) {
     const user = this;
     const passwordHash = user.password;
-  
+
     const isPasswordValid = await bcrypt.compare(
-      passwordInputByUser,
-      passwordHash
+        passwordInputByUser,
+        passwordHash
     );
-  
+
     return isPasswordValid;
 };
 
